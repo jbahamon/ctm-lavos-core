@@ -1,0 +1,440 @@
+﻿; Definition of stage 0 (training stage)
+; *** denotes values you should change/check for each stage.
+; The term "background" is used to mean both backgrounds and foregrounds.
+
+;--------------------------------------------------------
+[Info]
+ ;Name of the stage.
+name = "Lavos Core"
+displayname = "Lavos Core" ;Name to display
+versiondate = 09,30,2009    ;Version date of stage (MM,DD,YYYY or X.XX)
+mugenversion = 1.0          ;Version of M.U.G.E.N stage works on (X.XX)
+author = "Elecbyte"         ;Stage author name
+
+;--------------------------------------------------------
+[Camera]
+ ;Camera starting position: Usually 0 for both
+startx = 0
+starty = 0
+
+ ;Left and right bound of camera
+ ;You may want to fiddle a bit with these values to make sure the
+ ;background doesn't move too far or too little
+ ;***
+boundleft = 0
+boundright = 0
+
+ ;High and low bound of camera
+ ;High is a negative number. Make is more negative if you want to
+ ;camera to be able to move higher.
+ ;Low should usually be 0.
+ ;If omitted, defaults to -25 and 0 respectively
+ ;***
+boundhigh = -80
+boundlow = 0
+
+ ;This is how much the camera will move vertically towards the
+ ;highest player. Valid values are from 0 to 1. A value of 0 will mean
+ ;the camera does not move up at all. A value of 1 will makes the camera
+ ;follow the highest player.
+ ;Typically .2 for normal-sized backgrounds. You may need to pull this
+ ;value up for taller backgrounds.
+verticalfollow = .2
+
+ ;Minimum vertical distance the highest player has to be from the floor,
+ ;before the camera starts to move up to follow him. For extremely
+ ;tall stages, a floor tension of about 20-30 coupled with a
+ ;vertical-follow of .8 allows the camera to follow the action.
+floortension = 0
+
+ ;Horizontal distance player is from edge before camera starts to move
+ ;left or right. Typically 50 or 60.
+tension = 50
+
+ ;Number of pixels beyond the top and bottom of the screen that may
+ ;be drawn.  Overdraw specifies the how much can be seen during an
+ ;EnvShake.  Overdraw pixels will also be used when the screen aspect
+ ;is taller than the stage aspect.
+overdrawhigh = 0
+overdrawlow = 0
+
+ ;Number of pixels into the top and bottom of the screen that may be
+ ;cut from drawing when the screen aspect is shorter than the stage
+ ;aspect.  These parameters suggest a guideline, and the actual
+ ;number of pixels cut depends on the difference in aspect.
+cuthigh = 35
+cutlow = 25
+
+
+;--------------------------------------------------------
+[PlayerInfo]
+;--- Player 1 ---
+ ;Player 1 starting coordinates.
+ ;p1startx is typically -70 and p2startx is 70.
+ ;p1starty should be 0.
+p1startx = -70          ;Starting x coordinates
+p1starty = 0            ;Starting y coordinates
+p1facing = 1            ;Direction player faces: 1=right, -1=left
+
+;--- Player 2 ---
+p2startx = 70
+p2starty = 0
+p2facing = -1
+
+;--- Common ---
+ ;Don't change these values.
+leftbound  = -160 ;Left bound (x-movement)
+rightbound =  160 ;Right bound
+
+;--------------------------------------------------------
+[Bound]
+ ;Distance from left/right edge of screen that player can move to
+ ;Typically 15
+screenleft = 15    ;Dist from left of screen that player can move to
+screenright = 15   ;Right edge
+
+;--------------------------------------------------------
+[StageInfo]
+ ;"Ground" level where players stand at, measured in pixels from the
+ ;top of the screen.
+ ;Adjust this value to move the ground level up/down in the screen.
+ ;***
+zoffset = 190
+
+ ;Leave this at 1. It makes the players face each other
+autoturn = 1
+
+ ;Set the following to 1 to have the background reset itself between
+ ;rounds.
+resetBG = 0
+
+ ;Width and height of the local coordinate space of the stage.
+localcoord = 320, 240
+
+ ;Horizontal and vertical scaling factor for drawing.
+xscale = 1
+yscale = 1
+
+;--------------------------------------------------------
+[Shadow]
+intensity = 0
+
+;--------------------------------------------------------
+[Reflection]
+intensity = 128
+
+;--------------------------------------------------------
+[Music]
+ ;Put a filename for a MOD, MP3 or MIDI here, or just leave it
+ ;blank if you don't want music. If an invalid filename is
+ ;given, then no music will play. To play CD audio, put
+ ;the track number followed by ".da". Using a track number of
+ ;0 will play a random audio track. For example, to play
+ ;track 3 from a music CD, use:
+ ;  bgmusic = 3.da
+bgmusic =
+
+;bgmloopstart = <sample number>
+;bgmloopend = <sample number>
+
+ ;Adjust the volume. 100 is for 100%.
+bgmvolume = 100
+
+;========================================================
+;--------------------------------------------------------
+; Background definition
+; ***
+;-------------------------------------
+; [BG x]
+; type = ?       "Normal"/"Parallax"  (def: "normal")
+; spriteno = ?, ? Sprite group and number: groupno, imgno  (req'd)
+; start = ?, ?   Starting location (integer)  (def: 0, 0)
+; delta = ?, ?   Change in location per camera unit moved (float)  (def: 1,1)
+; trans = ?      Transparency settings: "none"/"add"/"add1"/"sub"" (def: "none")
+; mask = ?       Masking (int): 0 - off, 1 - on  (def: 0)
+; velocity = ?, ? Velocity: x, y (float): speed background moves (def: 0, 0)
+; tile = ?, ?    Tiling: xtile, ytile (int): 0 - off, 1 - infinite,
+;                        >1 - tile that number of times  (def: 0, 0) - only for Normal BG
+; tilespacing = ?, ? Tiling: x, y (int) : space between tiles (def: 0, 0)
+;  Parallax-only:
+; xscale = ?, ?    Top xscale, bottom xscale (float)
+; width = ?, ?     Top width, bottom width (int)  (use either this or above, but not both)
+; yscalestart = ?  Starting y-scale (float, in percent)  (def: 100)
+; yscaledelta = ?  Change in y-scale per unit (float, in percent)  (def: 0)
+;-------------------------------------
+
+;-------------------------------------
+; Main background definition
+[BGdef]
+ ;Filename of sprite data
+spr = lavos_core.sff
+
+ ;Set to 1 if you want to clear the screen to magenta before
+ ;drawing layer 0 (the default background). Good for spotting "holes"
+ ;in your background.
+ ;Remember to turn this off when you are done debugging the background,
+ ;because it slows down performance.
+debugbg = 1
+
+[BG Black Bg]
+type = normal
+spriteno = 1,0
+id = 0
+layerno = 0
+start = 0,0
+delta = 0,0
+tile = 1,1
+
+;12000 BC
+
+[BG Gargoyle]
+type = dummy;Normal
+spriteno = 205,0
+id = 205
+layerno = 0
+start = 110, 90
+mask = 1
+delta = 1,1
+
+[BG Female]
+type = dummy;Normal
+spriteno = 213,0
+id = 213
+layerno = 0
+start = -110, 90
+mask = 1
+delta = 1,1
+
+[BG Mammon Machine]
+type = dummy;Normal
+spriteno = 206,0
+id = 206
+layerno = 0
+start = 0, 180
+mask = 1
+delta = 1,1
+
+[BG Angel Left]
+type = dummy;Normal
+spriteno = 211,0
+id = 211
+layerno = 0
+start = -110, 200
+mask = 1
+delta = 1,1
+
+[BG Angel Right]
+type = dummy;Normal
+spriteno = 202,0
+id = 202
+layerno = 0
+start = 110, 200
+mask = 1
+delta = 1,1
+
+;600 BC
+
+[BG Wall]
+type = dummy;Normal
+spriteno = 300,0
+id = 300
+layerno = 0
+start = 50, -20
+mask = 1
+delta = 1,0
+
+[BG Wall]
+type = dummy;Normal
+spriteno = 300,1
+id = 300
+layerno = 0
+start = -50, -20
+mask = 1
+delta = 1,0
+
+[BG Altar]
+type = dummy;Anim
+actionno = 301
+id = 301
+layerno = 0
+start = 0, 80
+delta = 1,0.3
+
+[BG Chandelabra 1]
+type = dummy;Normal
+spriteno = 302,0
+id = 302
+layerno = 0
+start = -50, 100
+delta = 1,0.5
+
+[BG Chandelabra 2]
+type = dummy,Normal
+spriteno = 302,0
+id = 302
+layerno = 0
+start = 50, 100
+delta = 1,0.5
+
+[BG Sigil]
+type = dummy;Normal
+spriteno = 303,0
+id = 303
+layerno = 0
+start = 0, 140
+mask = 1
+delta = 1,0.7
+
+;1000 AD
+
+[BG Tent]
+type = anim
+actionno = 400
+id = 400
+layerno = 0
+start = -100, 70
+delta = 1,1
+
+
+[BG Norstein Bekkler]
+type = Normal
+Spriteno = 404,0
+id = 404
+layerno = 0
+start = 130, 110
+delta = 1,1
+
+[Bg Arch]
+type = Normal
+Spriteno = 401,0
+id = 401
+layerno = 0
+start = 0, 150
+
+[BG Balloon]
+type = Normal
+spriteno = 402, 0
+id = 402
+layerno = 0
+start = 50,100
+delta = 1,1
+
+[Bg Fountain]
+type = Normal
+Spriteno = 403,0
+id = 403
+layerno = 0
+start = -110, 210
+
+;Effects
+
+[BG Ripple 1]
+type = anim
+actionno = 2
+id = 2
+layerno = 0
+start = 0,120
+delta = 0,0
+
+[BG Ripple 1]
+type = anim
+actionno = 0
+id = 0
+layerno = 0
+start = 0,120
+delta = 0,0
+
+; Controllers
+
+[BGCtrlDef Sine]
+ctrlID = 
+
+[BGCtrl High]
+type = SinY
+ctrlID = 205, 213, 301, 400, 404
+value = 5, 200, 0
+
+[BGCtrl Mid]
+type = SinY
+ctrlID = 206, 302, 401, 402
+value = 7, 200, 37
+
+[BGCtrl Low]
+type = SinY
+ctrlID = 202, 211, 303, 403
+value = 10, 200, 75
+
+
+;0-100 : General background and effects
+;Warp Effect
+[Begin Action 0]
+0,14, 0,0, 2, , AS128D256
+0,13, 0,0, 2, , AS128D256
+0,12, 0,0, 2, , AS128D256
+0,11, 0,0, 2, , AS128D256
+0,10, 0,0, 2, , AS128D256
+0,9, 0,0, 2, , AS128D256
+0,8, 0,0, 2, , AS128D256
+0,7, 0,0, 2, , AS128D256
+0,6, 0,0, 2, , AS128D256
+0,5, 0,0, 2, , AS128D256
+0,4, 0,0, 2, , AS128D256
+0,3, 0,0, 2, , AS128D256
+0,2, 0,0, 2, , AS128D256
+0,1, 0,0, 2, , AS128D256
+0,0, 0,0, 2, , AS128D256
+
+;Warp 2
+[Begin Action 2]
+2,0, 0,0, 3, , A
+2,1, 0,0, 3, , A
+2,2, 0,0, 3, , A
+2,3, 0,0, 3, , A
+2,4, 0,0, 3, , A
+2,5, 0,0, 3, , A
+2,6, 0,0, 3, , A
+2,7, 0,0, 3, , A
+2,8, 0,0, 3, , A
+2,9, 0,0, 3, , A
+2,10, 0,0, 3, , A
+2,11, 0,0, 3, , A
+2,12, 0,0, 3, , A
+2,13, 0,0, 3, , A
+2,14, 0,0, 3, , A
+2,15, 0,0, 3, , A
+2,16, 0,0, 3, , A
+2,17, 0,0, 3, , A
+2,18, 0,0, 3, , A
+2,19, 0,0, 3, , A
+2,20, 0,0, 3, , A
+
+;100 - 199 : 65.000.000 BC 
+
+
+;200 - 299 : 12.000 BC 
+
+;300 - 399 : 600 AD 
+
+;Lavos Altar
+[Begin Action 301]
+301,0,0,0,2
+301,1,0,0,2
+301,2,0,0,2
+301,3,0,0,2
+301,4,0,0,2
+301,5,0,0,2
+301,6,0,0,2
+301,7,0,0,2
+
+
+;400 - 499 : 1.000 AD
+
+;Tent
+[Begin Action 400]
+400,0,0,0,5
+400,1,0,0,5
+
+;500 - 599 : 2.300 AD
+
+
+
